@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import logo1 from "./assets/logo1.png";
-import { collection, deleteDoc, getDocs } from "firebase/firestore";
-import { db } from "./Firebase/configs";
+
 
 function Home() {
     const navigate = useNavigate();
