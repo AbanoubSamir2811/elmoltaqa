@@ -1,3 +1,10 @@
+import React, { useEffect, useState } from 'react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from './Firebase/configs'; // Ensure this path is correct
+import 'animate.css';
+import logo1 from "./assets/logo1.png";
+
+// Import images
 import part1 from './assets/1.png';
 import part2 from './assets/2.png';
 import part3 from './assets/3.png';
@@ -12,56 +19,91 @@ import part11 from './assets/11.png';
 import part12 from './assets/12.png';
 import part13 from './assets/13.png';
 import part14 from './assets/14.png';
-import 'animate.css';
 
-import { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from './Firebase/configs';
+function Display() {
+    const [nums, setNums] = useState(Array(14).fill(null)); // Initialize with null values
+    const [motion, setMotion] = useState(false);
 
-function Desplay() {
-    const [nums, setNums] = useState<string[]>([]);
-
+    // Fetch data from Firestore
     useEffect(() => {
-        const numberRefs = Array.from({ length: 14 }, (_, i) => doc(db, "user", `number${i + 1}`));
-
-        const unsubscribes = numberRefs.map((ref, index) =>
-            onSnapshot(ref, (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    const data = docSnapshot.data();
-                    setNums(prevNums => {
-                        const newNums = [...prevNums];
-                        newNums[index] = data.id;
-                        return newNums;
-                    });
-                    console.log("Current data: ", data);
-                } else {
-                    console.log("No such document!");
-                }
-            })
-        );
+        const unsubscribes = Array.from({ length: 14 }, (_, i) => {
+            const docRef = doc(db, "user", `number${i + 1}`);
+            return onSnapshot(docRef, (docSnapshot) => {
+                setNums((prevNums) => {
+                    const newNums = [...prevNums];
+                    newNums[i] = docSnapshot.exists() ? docSnapshot.data().id : null;
+                    return newNums;
+                });
+            });
+        });
 
         // Cleanup the listeners on component unmount
-        return () => unsubscribes.forEach(unsubscribe => unsubscribe());
+        return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
     }, []);
 
+    // Trigger motion effect when all documents are loaded
+    useEffect(() => {
+        if (nums.every((num) => num !== null)) {
+            setTimeout(() => {
+                setMotion(true);
+            }, 1000);
+        } else {
+            setMotion(false);
+        }
+    }, [nums]);
+
+    // Check if any num is not null
+    const hasValidNums = nums.some((num) => num !== null);
+
     return (
-        <div className='w-[100vw] relative'>
-            <img src={part1} className={+nums[0] == 1? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw] animate__animated animate__bounceInDown' : 'hidden'} alt="part1" />
-            <img src={part2} className={+nums[1] > 1 && +nums[1] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw] animate__animated animate__bounceInUp' : 'hidden'} alt="part2" />
-            <img src={part3} className={+nums[2] > 2 && +nums[2] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw] animate__animated animate__fadeInTopRight' : 'hidden'} alt="part3" />
-            <img src={part4} className={+nums[3] > 3 && +nums[3] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw] animate__animated animate__fadeInBottomLeft' : 'hidden'} alt="part4" />
-            <img src={part5} className={+nums[4] > 4 && +nums[4] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part5" />
-            <img src={part6} className={+nums[5] > 5 && +nums[5] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part6" />
-            <img src={part7} className={+nums[6] > 6 && +nums[6] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part7" />
-            <img src={part8} className={+nums[7] > 7 && +nums[7] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part8" />
-            <img src={part9} className={+nums[8] > 8 && +nums[8] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part9" />
-            <img src={part10} className={+nums[9] > 9 && +nums[9] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part10" />
-            <img src={part11} className={+nums[10] > 10 && +nums[10] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part11" />
-            <img src={part12} className={+nums[11] > 11 && +nums[11] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part12" />
-            <img src={part13} className={+nums[12] > 12 && +nums[12] < 14 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part13" />
-            <img src={part14} className={+nums[13] > 13 && +nums[13] < 15 ? 'h-[50vh] w-auto absolute top-[25vh] right-[40vw]' : 'hidden'} alt="part14" />
-        </div>
+        <>
+            {hasValidNums ? (
+                <div className="w-[100vw] flex justify-center items-center" id="allLogo">
+                    {/* Text element with motion effect */}
+                    <div className={motion ? 'h-[50vh] w-[30px] absolute top-[30vh] right-[65vw] text-5xl text-justify animate__animated animate__flash' : 'hidden'}>
+                        <p className='text-wrap text-justify leading-[70px] mb-4'>مــــــجــــــلــــــــس الجمعيات الأهـــــــلــــــيـــــــة</p>
+                        <p className='text-nowrap text-2xl font-bold text-justify'>Council Of CSA</p>
+                    </div>
+                    <div className={motion ? 'w-full relative transition ease-in-out -translate-x-[-100px]' : 'w-full relative transition'} id='logo'>
+                        {/* Render images conditionally based on the nums state */}
+                        {nums.map((num, index) => {
+                            const partImages = [part1, part2, part3, part4, part5, part6, part7, part8, part9, part10, part11, part12, part13, part14];
+                            const animations = [
+                                'animate__bounceInDown',
+                                'animate__bounceInUp',
+                                'animate__fadeInTopRight',
+                                'animate__fadeInBottomLeft',
+                                'animate__fadeInTopLeft',
+                                'animate__rotateInDownRight',
+                                'animate__zoomInDown',
+                                'animate__slideInLeft',
+                                'animate__zoomInLeft',
+                                'animate__slideInRight',
+                                'animate__zoomInUp',
+                                'animate__zoomInUp',
+                                'animate__flipInX',
+                                'animate__jackInTheBox',
+                            ];
+                            return (
+                                num !== null && (
+                                    <img
+                                        key={index}
+                                        src={partImages[index]}
+                                        className={`h-[50vh] w-auto absolute top-[25vh] right-[40vw] animate__animated ${animations[index]}`}
+                                        alt={`part${index + 1}`}
+                                    />
+                                )
+                            );
+                        })}
+                    </div>
+                </div>
+            ) : (
+                <div className="flex w-screen min-h-screen flex-col items-center justify-center bg-[#06878E] pb-[50px] md:pb-0 px-4">
+                    <img src={logo1} alt="Flowbite Logo" className="h-56 w-auto" />
+                </div>
+            )}
+        </>
     );
 }
 
-export default Desplay;
+export default Display;
