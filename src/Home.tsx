@@ -17,25 +17,25 @@ function Home() {
     }
 
     // Function to delete the entire Firestore collection
-    async function deleteEntireCollection() {
-        const userCollectionRef = collection(db, "user"); // Reference to the "user" collection
-        try {
-            const querySnapshot = await getDocs(userCollectionRef); // Fetch all documents in the collection
+    // async function deleteEntireCollection() {
+    //     const userCollectionRef = collection(db, "user"); // Reference to the "user" collection
+    //     try {
+    //         const querySnapshot = await getDocs(userCollectionRef); // Fetch all documents in the collection
 
-            // Delete each document one by one
-            querySnapshot.forEach(async (doc) => {
-                await deleteDoc(doc.ref); // Delete the document
-                console.log(`Document with ID ${doc.id} deleted.`);
-            });
+    //         // Delete each document one by one
+    //         querySnapshot.forEach(async (doc) => {
+    //             await deleteDoc(doc.ref); // Delete the document
+    //             console.log(`Document with ID ${doc.id} deleted.`);
+    //         });
 
-            console.log("Entire collection deleted.");
-            alert("Entire collection deleted successfully!");
-            navigate('/desplay');
-        } catch (error) {
-            console.error("Error deleting collection: ", error);
-            alert("Error deleting collection!");
-        }
-    }
+    //         console.log("Entire collection deleted.");
+    //         alert("Entire collection deleted successfully!");
+    //         navigate('/desplay');
+    //     } catch (error) {
+    //         console.error("Error deleting collection: ", error);
+    //         alert("Error deleting collection!");
+    //     }
+    // }
 
     // List of regions
     const regions = [

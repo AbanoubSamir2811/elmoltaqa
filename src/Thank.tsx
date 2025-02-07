@@ -1,4 +1,3 @@
-import React from 'react'
 import logo1 from "./assets/logo1.png";
 
 function Thank() {
