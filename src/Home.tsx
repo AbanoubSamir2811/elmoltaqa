@@ -67,17 +67,17 @@ function Home() {
             <div className="mt-9 w-64 h-20">
                 <select
                     onChange={handleRegionSelect}
-                    className="w-full p-3 text-xl font-bold text-white bg-[#05696E] rounded-md cursor-pointer focus:outline-none"
+                    className="w-full p-3 text-xl font-bold text-white bg-[#B5B89F] rounded-md cursor-pointer focus:outline-none"
                     dir="rtl"
                 >
-                    <option value="" className="text-white bg-[#05696E]">
+                    <option value="" className="text-black bg-[#B5B89F]">
                         اختر المنطقة
                     </option>
                     {regions.map((region) => (
                         <option
                             key={region.id}
                             value={region.id}
-                            className="text-white bg-[#05696E] max-h-3"
+                            className="text-black bg-[#B5B89F] max-h-3"
                         >
                             {region.name}
                         </option>

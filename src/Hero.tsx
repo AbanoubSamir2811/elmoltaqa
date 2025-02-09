@@ -5,7 +5,7 @@ import { db } from "./Firebase/configs";
 import logo1 from "./assets/logo1.png";
 
 function Hero() {
-  const [user, setUser] = useState<string | null>(null); // Initialize as null
+  const [user, setUser] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,23 +13,36 @@ function Hero() {
     if (storedUser) {
       setUser(storedUser);
     }
-  }, []); // ✅ Runs only once when the component mounts
+  }, []);
 
   async function toDesplay() {
-    if(localStorage.getItem('user') == "14"){
-      const userRef = doc(db, 'admin', `admin`)
-      await setDoc(userRef, {admin: "admin"});
+    if (localStorage.getItem("user") === "14") {
+      const userRef = doc(db, "admin", "admin");
+      await setDoc(userRef, { admin: "admin" });
       navigate("/thank");
-    }else{
-      const userRef = doc(db, 'user', `number${localStorage.getItem('user')}`)
-      await setDoc(userRef, {id: localStorage.getItem('user')});
+    } else {
+      const userRef = doc(db, "user", `number${localStorage.getItem("user")}`);
+      await setDoc(userRef, { id: localStorage.getItem("user") });
       navigate("/thank");
     }
   }
 
   useEffect(() => {
-    console.log(user); // Logs only when user changes
+    console.log(user);
   }, [user]);
+
+  // ✅ Add touch event listener for iPads
+  useEffect(() => {
+    function handleTouch() {
+      toDesplay(); // Call the function when touched anywhere
+    }
+
+    document.addEventListener("touchstart", handleTouch);
+
+    return () => {
+      document.removeEventListener("touchstart", handleTouch);
+    };
+  }, []); // Runs only once on mount
 
   return (
     <div className="flex w-screen min-h-screen flex-col items-center justify-start bg-[#090951] pb-[50px] md:pb-0 px-4">
@@ -39,7 +52,7 @@ function Hero() {
       </h1>
       <button
         className="text-2xl font-bold text-black text-center mt-4 bg-[#B5B89F] h-16 w-32 rounded-md"
-        onClick={toDesplay} // ✅ No need to pass `user`
+        onClick={toDesplay}
       >
         اضغط هنا
       </button>
