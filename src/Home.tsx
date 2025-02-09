@@ -61,7 +61,7 @@ function Home() {
                 alt="Flowbite Logo"
                 className="h-64  w-auto mt-5"
             />
-            <h1 className="text-3xl font-bold text-white text-end my-5 mt-28">ماهى منطقة المجلس ؟</h1>
+            <h1 className="text-3xl font-bold text-black text-end my-5 mt-28">ماهى منطقة المجلس ؟</h1>
 
             {/* Dropdown Menu */}
             <div className="mt-9 w-64 h-20">
