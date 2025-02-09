@@ -98,7 +98,7 @@ function Display() {
                     </div>
                 </div>
             ) : (
-                <div className="flex w-screen min-h-screen flex-col items-center justify-center bg-[#06878E] pb-[50px] md:pb-0 px-4">
+                <div className="flex w-screen min-h-screen flex-col items-center justify-center bg-[#090951] pb-[50px] md:pb-0 px-4">
                     <img src={logo1} alt="Flowbite Logo" className="h-56 w-auto" />
                 </div>
             )}

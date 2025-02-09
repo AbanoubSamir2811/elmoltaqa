@@ -55,7 +55,7 @@ function Home() {
     ];
 
     return (
-        <main className="flex w-screen min-h-screen flex-col items-center justify-start bg-[#06878E] pb-[50px] md:pb-0 px-4">
+        <main className="flex w-screen min-h-screen flex-col items-center justify-start bg-[#090951] pb-[50px] md:pb-0 px-4">
             <img
                 src={logo1}
                 alt="Flowbite Logo"
