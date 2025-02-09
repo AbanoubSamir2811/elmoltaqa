@@ -67,7 +67,7 @@ function Home() {
             <div className="mt-9 w-64 h-20">
                 <select
                     onChange={handleRegionSelect}
-                    className="w-full p-3 text-xl font-bold text-white bg-[#B5B89F] rounded-md cursor-pointer focus:outline-none"
+                    className="w-full p-3 text-xl font-bold text-black bg-[#B5B89F] rounded-md cursor-pointer focus:outline-none"
                     dir="rtl"
                 >
                     <option value="" className="text-black bg-[#B5B89F]">
